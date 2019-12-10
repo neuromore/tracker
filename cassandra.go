@@ -519,7 +519,10 @@ func (i *CassandraService) write(w *WriteArgs) error {
 			delete(*params, "h")
 			delete(*params, "params")
 
+			delete(*params, "tr")
+			delete(*params, "time")
 			delete(*params, "vid")
+			delete(*params, "did")
 			delete(*params, "sid")
 			delete(*params, "app")
 			delete(*params, "rel")
@@ -692,6 +695,10 @@ func (i *CassandraService) write(w *WriteArgs) error {
 				 xid,
 				 split,
 				 ename,
+				 source,
+				 medium,
+				 campaign,
+				 term,
 				 etyp,
 				 ver,
 				 sink,
@@ -700,7 +707,7 @@ func (i *CassandraService) write(w *WriteArgs) error {
 				 targets,
 				 rid
 			 ) 
-			 values (?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?)`, //26
+			 values (?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?,? )`, //30
 			w.EventID,
 			v["vid"],
 			v["sid"],
@@ -720,6 +727,10 @@ func (i *CassandraService) write(w *WriteArgs) error {
 			v["xid"],
 			v["split"],
 			v["ename"],
+			v["source"],
+			v["medium"],
+			v["campaign"],
+			v["term"],
 			v["etyp"],
 			version,
 			v["sink"],
@@ -986,6 +997,7 @@ func (i *CassandraService) write(w *WriteArgs) error {
 				if xerr := i.Session.Query(`INSERT into visitors 
 						 (
 							 vid, 
+							 did,
 							 sid, 
 							 hhash,
 							 app,
@@ -1024,9 +1036,10 @@ func (i *CassandraService) write(w *WriteArgs) error {
 							 tz,
 							 vp
 						 ) 
-						 values (?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?) 
-						 IF NOT EXISTS`, //38
+						 values (?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?) 
+						 IF NOT EXISTS`, //39
 					v["vid"],
+					v["did"],
 					v["sid"],
 					hhash,
 					v["app"],
@@ -1071,6 +1084,7 @@ func (i *CassandraService) write(w *WriteArgs) error {
 				if xerr := i.Session.Query(`INSERT into sessions 
 						 (
 							 vid, 
+							 did,
 							 sid, 
 							 hhash,
 							 app,
@@ -1110,9 +1124,10 @@ func (i *CassandraService) write(w *WriteArgs) error {
 							 tz,
 							 vp                        
 						 ) 
-						 values (?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?) 
-						 IF NOT EXISTS`, //39
+						 values (?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?,? ,?,?,?,?,?,?,?,?,?,?) 
+						 IF NOT EXISTS`, //40
 					v["vid"],
+					v["did"],
 					v["sid"],
 					hhash,
 					v["app"],

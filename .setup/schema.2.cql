@@ -5,7 +5,8 @@
 
 -- SFPLA
 --drop keyspace sfpla;
-create keyspace sfpla WITH REPLICATION = {  'class':'NetworkTopologyStrategy', 'DC1':'1' }; --analytics
+-- CREATE KEYSPACE sfpla WITH replication = {'class': 'NetworkTopologyStrategy', 'DC1': '2'}  AND durable_writes = true;
+-- create keyspace sfpla WITH REPLICATION = {  'class':'NetworkTopologyStrategy', 'dc1':'1' }; --analytics
 --For a dev machine...
 --CREATE KEYSPACE sfpla WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}
 
@@ -48,6 +49,7 @@ create table outcomes (
 --This should only be written to once a user first visits (vid==sid), AKA acquisitions
 create table visitors (
   vid timeuuid, --visitor-id
+  did text, --device-id
   sid timeuuid, --session-id
   hhash text, --host-hash
   app text, --app
@@ -79,7 +81,7 @@ create table visitors (
   medium text, --email,sms,ad,etc [invite] AKA utm_medium
   campaign text, --marketing campaign name [chat_invite] AKA utm_campaign
   term text, --seo search query term AKA utm_term
-  ref uuid, --referrer uid
+  ref uuid, --referrer vid
   rcode text, --referrer code
   aff text, --affiliate id, promo-code
   browser text,
@@ -93,6 +95,7 @@ create table visitors (
 --Session-starts written to once a user first starts a session, AKA session-starts
 create table sessions (
   vid timeuuid, 
+  did text, 
   sid timeuuid, 
   hhash text,
   app text,
@@ -158,6 +161,10 @@ create table events (
   xid text, 
   split text, 
   ename text, 
+  source text, 
+  medium text, 
+  campaign text, 
+  term text,
   etyp text, 
   ver int,
   sink text, 
