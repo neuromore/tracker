@@ -3,6 +3,8 @@
 -- Licensed under AGPL v3.  Copyright (c) 2018 SF Product Labs. All Rights Reserved.
 -- See LICENSE
 
+consistency all;
+
 -- SFPLA
 --drop keyspace sfpla;
 -- CREATE KEYSPACE sfpla WITH replication = {'class': 'NetworkTopologyStrategy', 'DC1': '2'}  AND durable_writes = true;
