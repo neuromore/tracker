@@ -4,7 +4,7 @@ Track every visitor click, setup growth experiments and measure every user outco
 Don't want to give your user data to people you don't trust? Maybe save a GDPR lawsuit by using this. We've seen a marked drop in people sharing their data with Google Analytics, so this will allow you to get your own trusted statistics yourself.
 
 ## Features
-* [Tracking URL Generator](https://chrome.google.com/webstore/detail/sfpl-visitor-tracker/dhpgldichapkobbnapfikfnoegjmblpa) extension for google chrome.
+* Tracking URL Generator extension for google chrome.
 * Tracking API Calls & URLs & GET Redirects
 * Tracking Images (for Emails)
 * Reverse Proxy included (for your Node, Python, etc. API backend)
@@ -85,6 +85,17 @@ sudo docker run -p 8443:443 tracker
 #  sudo docker system prune -a
 ```
 * Then upload/use (try AWS ECS).
+
+## Privacy
+Since GDPR, honest reporting about user telemetry is required. The default tracker for online (https://github.com/dioptre/tracker/blob/master/.setup/www/track.js) uses a number of cookies by default:
+* COOKIE_REFERRAL (ref): An entity that referred you to the site. 
+* COOKIE_EXPERIMENT (xid): An experiment that you are in. A/B testing a button title for example.
+* COOKIE_EXP_PARAMS (params): Additional information (experiment parameters) that stores information about you anonymously that can be used to tailor the experience to you.
+* COOKIE_TRACK (trc): The last time you were tracked.
+* COOKIE_VID (vid): Your unique id. This is consistent across all sessions, and is stored on your device.
+* COOKIE_SESS (sess,sid): The session id. Each time you visit/use the site its approximately broken into session ids.
+* COOKIE_JWT (jwt): The encrypted token of your user. This may optionally include your user id (uid) if logged in.
+
 
 ## Credits
 * [DragonGate](https://github.com/dioptre/DragonGate)
